@@ -1,6 +1,5 @@
 from scipy.stats import norm
 import math
-import random
 import numpy as np
 
 
