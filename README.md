@@ -1,38 +1,74 @@
-Black-Scholes Pricing app that pulls historical data for apparent volatilities of real stocks to calculate Call and Put prices through the Black-Scholes model, and draws heatmaps to showcase different Call and Put prices as well as P&L.
+# Black-Scholes Option Pricer
 
+Interactive Streamlit app that prices European calls and puts, estimates volatility
+from market data, and visualizes option value and P&L under spot/volatility/rate scenarios.
 
-Black-Scholes pricing app that estimates volatility from historical stock data to calculate call and put prices through the Black-Scholes model, and draws heatmaps of call and put prices as well as P&L.
+**[Live demo](YOUR_STREAMLIT_URL)**
+
+![Heatmaps](images/heatmaps.png)
+
+## Features
+- Calculating volatility for a given stock using the most recent $N$ trading days
+- Displaying a heatmap of call and put prices for differing spot prices and volatilities or interest rates
+- Allowing the input of call and put purchase prices to display P&L as a heatmap with values shown in green(profit) or red(loss)
+- The option to change the color gradient (for red-green color vision deficiency)
 
 ## The math
 
-For spot price $S$, strike $K$, risk-free rate $r$, volatility $\sigma$, and time to expiry $\tau = T - t$ (in years):
+**Pricing**
+
+For spot price $S_t$, strike $K$, risk-free rate $r$, volatility $\sigma$, and time to expiry $\tau = T - t$ (in years):
 
 $$
-d_1 = \frac{\ln(S/K) + \left(r + \frac{\sigma^2}{2}\right)\tau}{\sigma\sqrt{\tau}}, \qquad
+d_1 = \frac{\ln(S_t/K) + \left(r + \frac{\sigma^2}{2}\right)\tau}{\sigma\sqrt{\tau}}, \qquad
 d_2 = d_1 - \sigma\sqrt{\tau}
 $$
 
 $$
-C = S\,N(d_1) - K e^{-r\tau} N(d_2)
+C = S_tN(d_1) - K e^{-r\tau} N(d_2)
 $$
 
 $$
-P = K e^{-r\tau} N(-d_2) - S\,N(-d_1) = C - S + K e^{-r\tau}
+P = K e^{-r\tau} N(-d_2) - S_tN(-d_1) = C - S_t + K e^{-r\tau}
 $$
 
 where $N(\cdot)$ is the standard normal cumulative distribution function.
 
-Historical volatility is the annualized standard deviation of daily log returns:
 
-$$
-\sigma = \operatorname{std}\!\left(\ln\frac{P_t}{P_{t-1}}\right)\sqrt{252}
-$$
+**Volatility from history.** Annualized standard deviation of daily log returns
+over the chosen window, $\sigma = std((\ln(P_t/P_{t-1}))\sqrt{252}$).
 
-Prices European options under Black-Scholes (no dividends, constant volatility). US equity options are typically American-style, so values are approximate, especially for puts.
+**P&L.** Long position, per share: model value at each shocked (spot, volatility or
+rate) point minus the purchase price you enter.
 
-For a given current stock/spot price, strike price, maturity time, risk-free interest rate, the app calculates the call and put prices according to the Black-Scholes model, where the volatility can either be manually selected, or the trader can input a stock symbol (case insensitive) and a time period in order to calculate the volatility for that stock price throughout the given time period (if we choose "AAPL" and "30", the app will calculate the volatility of the Apple stocks in the last 30 trading days). The app also displays, once a stock is selected, the last closing value for that stock, in order for the trader to be able to select that as their current stock price.
+## Assumptions and limitations
+- European exercise (US equity options are usually American, so values are approximate, especially puts)
+- No dividends; constant volatility
+- Long positions only; per-share P&L
+- $T$ = calendar days / 365; volatility annualized with 252 trading days
+- Market data comes from yfinance, an unofficial Yahoo Finance wrapper, so it may break if Yahoo changes
 
-The heatmap graphs display the various call and put values for a given range of spot and volatility or interest rate values. Not that whatever values aren't selected to have a range will be selected through the inputs above (for example, the strike price).
-In addition to the call and put price heatmaps, the trader can enter purchase prices for the call and put options for that stock, and the new drawn heatmap graphs will display the P&L of the trader. If the trader is making profit, the graph shows green, while a loss is displayed through red values. Note that there is an option to change the color-gradient for color-blind traders.
+## Run locally
+```bash
+git clone https://github.com/pamiroral/Black-Scholes-Pricer.git
+cd Black-Scholes-Pricer
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+## Project structure
+- `app.py`: Streamlit interface
+- `black_scholes_pricing.py`: pricing function
+- `yahoo_finance_yfinance.py`: data fetching, volatility, heatmap plotting
+
+## Possible extensions
+Greeks (delta, gamma, vega, theta), implied volatility from market prices,
+short positions, American options via a binomial tree.
+
+## Disclaimer
+For educational purposes only; not financial advice.
+
+Built by [Pamir Oral](https://www.linkedin.com/in/pamir-oral-1011a220b/)
+
 
 
