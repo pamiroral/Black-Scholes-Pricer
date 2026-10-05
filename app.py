@@ -87,7 +87,7 @@ else:
         st.error(
             "Couldn't fetch market data right now. Uncheck 'Get volatility from history' to enter volatility manually.")
         st.stop()
-    if not np.isfinite(sigma) or sigma <= 0:
+    if not np.isfinite(sigma) or sigma < 0:
         st.error("Couldn't compute a valid volatility from this data.")
         st.stop()
 
