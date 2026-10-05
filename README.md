@@ -3,7 +3,7 @@
 Interactive Streamlit app that prices European calls and puts, estimates volatility
 from market data, and visualizes option value and P&L under spot/volatility/rate scenarios.
 
-**[Live demo](YOUR_STREAMLIT_URL)**
+**[Live demo](https://black-scholes-pricer-nn7ft4sypuhpwgvjoyxw5j.streamlit.app/)**
 
 ![Heatmaps](images/heatmaps1.png) ![Heatmaps](images/heatmaps2.png)
 
