@@ -5,7 +5,7 @@ from market data, and visualizes option value and P&L under spot/volatility/rate
 
 **[Live demo](YOUR_STREAMLIT_URL)**
 
-![Heatmaps](images/heatmaps.png)
+![Heatmaps](images/heatmaps1.png) ![Heatmaps](images/heatmaps2.png)
 
 ## Features
 - Calculating volatility for a given stock using the most recent $N$ trading days
