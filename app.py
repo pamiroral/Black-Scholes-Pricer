@@ -46,8 +46,8 @@ with st.sidebar:
 with st.sidebar:
     st.header("Inputs")
     S = st.number_input("Current asset price", value=100.0, min_value=0.01)
-    K = st.number_input("Strike price", value=120.0, min_value=0.01)
-    T_day = st.number_input("Time to maturity (days)", value=10, min_value=2)
+    K = st.number_input("Strike price", value=105.0, min_value=0.01)
+    T_day = st.number_input("Time to maturity (days)", value=50, min_value=2)
     T = T_day / 365
 
     sigma_input = st.checkbox("Get volatility from history")
